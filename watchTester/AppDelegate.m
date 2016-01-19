@@ -17,6 +17,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    if ([WCSession isSupported]) {
+        WCSession *watchSession = [WCSession defaultSession];
+        watchSession.delegate = self;
+        [watchSession activateSession];
+    }
     return YES;
 }
 
