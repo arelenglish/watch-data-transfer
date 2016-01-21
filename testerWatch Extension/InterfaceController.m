@@ -7,6 +7,7 @@
 //
 
 #import "InterfaceController.h"
+@import WatchConnectivity;
 
 @interface InterfaceController()
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceButton *imageButton;
@@ -34,6 +35,20 @@
 }
 
 - (IBAction)imageButtonAction {
+    if ([[WCSession defaultSession] isReachable]) {
+        NSDictionary *dictMessage = @{@"pictureButton":@"pressed"};
+        [[WCSession defaultSession] sendMessage:dictMessage
+                                   replyHandler:^(NSDictionary *replyHandler){
+                                       // if iPhone sends back OK. Do something
+                                       NSLog(@"%@",replyHandler);
+                                   }errorHandler:^(NSError *error){
+                                       // Error message
+                                       NSLog(@"%@",error);
+                                   }];
+    }else{
+        // send message that the iphone is out of range
+    }
+
     if ([self.buttonState isEqualToString:@"blue"]) {
         [self.imageButton setBackgroundColor:[UIColor redColor]];
         self.buttonState = @"red";

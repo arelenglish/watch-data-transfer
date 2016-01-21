@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+@import WatchConnectivity;
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *buttonImage;
@@ -22,6 +23,7 @@ NSString *imageURL = @"http://cdn2.hubspot.net/hub/17518/file-13357813-png/galle
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 }
+
 - (IBAction)pictureButton:(id)sender {
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:imageURL]

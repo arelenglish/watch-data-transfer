@@ -7,21 +7,28 @@
 //
 
 #import "AppDelegate.h"
+@import WatchConnectivity;
 
-@interface AppDelegate ()
+@interface AppDelegate () <WCSessionDelegate>
 
 @end
 
 @implementation AppDelegate
 
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        if ([WCSession isSupported]) {
+            WCSession *watchSession = [WCSession defaultSession];
+            watchSession.delegate = self;
+            [watchSession activateSession];
+        }
+    }
+    return self;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    if ([WCSession isSupported]) {
-        WCSession *watchSession = [WCSession defaultSession];
-        watchSession.delegate = self;
-        [watchSession activateSession];
-    }
     return YES;
 }
 

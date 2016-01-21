@@ -7,16 +7,30 @@
 //
 
 #import "ExtensionDelegate.h"
+@import WatchConnectivity;
+
+@interface ExtensionDelegate () <WCSessionDelegate>
+
+@end
 
 @implementation ExtensionDelegate
 
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        if ([WCSession isSupported]) {
+            WCSession *watchSession = [WCSession defaultSession];
+            watchSession.delegate = self;
+            [watchSession activateSession];
+        }
+    }
+    return self;
+}
+
+
 - (void)applicationDidFinishLaunching {
     // Perform any final initialization of your application.
-    if ([WCSession isSupported]) {
-        WCSession *watchSession = [WCSession defaultSession];
-        watchSession.delegate = self;
-        [watchSession activateSession];
-    }
 }
 
 - (void)applicationDidBecomeActive {
