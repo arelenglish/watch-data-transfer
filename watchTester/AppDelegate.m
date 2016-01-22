@@ -22,7 +22,7 @@
         if ([WCSession isSupported]) {
             WCSession *watchSession = [WCSession defaultSession];
             watchSession.delegate = self;
-            [watchSession activateSession];
+            [watchSession activateSession];    
         }
     }
     return self;

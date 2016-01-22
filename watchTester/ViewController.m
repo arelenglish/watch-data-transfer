@@ -9,7 +9,7 @@
 #import "ViewController.h"
 @import WatchConnectivity;
 
-@interface ViewController ()
+@interface ViewController () <WCSessionDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *buttonImage;
 @property (weak, nonatomic) IBOutlet UIButton *pictureButton;
 
@@ -21,7 +21,11 @@ NSString *imageURL = @"http://cdn2.hubspot.net/hub/17518/file-13357813-png/galle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    if ([WCSession isSupported]) {
+        WCSession *session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
 }
 
 - (IBAction)pictureButton:(id)sender {
@@ -41,6 +45,12 @@ NSString *imageURL = @"http://cdn2.hubspot.net/hub/17518/file-13357813-png/galle
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler
+{
+    NSDictionary *messageDict = [message objectForKey:@"pictureButton"];
+    NSLog(@"%@",messageDict);
 }
 
 @end
